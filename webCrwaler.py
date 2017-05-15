@@ -1,7 +1,7 @@
 # coding=utf-8
 from urllib import urlopen
 from bs4 import BeautifulSoup
-
+import Methods as DB
 import re
 import urlparse
 
@@ -52,15 +52,13 @@ for result in results:
         webstats = urlopen(match["href"]).read()
         soupStats = BeautifulSoup(webstats, "html.parser")
         stats = soupStats.find_all("span",{"class":"long-name"},limit=2)
-        print "Equipos: "
-        for stat in stats:
-            print stat.get_text()
 
-
+        print("Local: " + stats[0].get_text())
+        print("Visita: " + stats[1].get_text())
         score = soupStats.find_all("span",attrs={"class":"score"})
-        print "Marcador: "
-        for s in score:
-            print s.get_text()
+
+        print("marcador casa: " + score[0].get_text())
+        print("marcador visita: " + score[1].get_text())
 
         datos = soupStats.find_all("td", attrs={"data-stat": "foulsCommitted"})
         if datos != []:
